@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Sign Up - First Aid Assistant</title>
+<style>
+:root {
+  --primary-start: #0d9488;
+  --primary-end: #059669;
+  --bg-start: #f0fdfa;
+  --bg-end: #ecfdf5;
+  --text-main: #1f2937;
+  --border-default: #e5e7eb;
+  --input-focus: #10b981;
+}
+
+* {
+  box-sizing: border-box;
+  transition: all 0.3s ease;
+}
+
+body {
+  margin: 0;
+  font-family: "Segoe UI", Arial, sans-serif;
+  background: linear-gradient(135deg, var(--bg-start), var(--bg-end));
+  color: var(--text-main);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+.container {
+  background: white;
+  padding: 50px 40px;
+  border-radius: 24px;
+  box-shadow: 0 16px 40px rgba(0,0,0,0.12);
+  width: 400px;
+  max-width: 90%;
+  text-align: center;
+}
+
+h2 {
+  margin-bottom: 32px;
+  color: var(--primary-start);
+  font-size: 28px;
+  letter-spacing: 1px;
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  text-align: left;
+}
+
+/* Floating labels style */
+form .field {
+  position: relative;
+}
+
+form input {
+  width: 100%;
+  padding: 14px 16px;
+  border-radius: 12px;
+  border: 1px solid var(--border-default);
+  outline: none;
+  font-size: 16px;
+  background: #fafafa;
+}
+
+form input:focus {
+  border-color: var(--input-focus);
+  box-shadow: 0 0 10px rgba(16,185,129,0.2);
+}
+
+/* Label floating effect */
+form label {
+  position: absolute;
+  top: 50%;
+  left: 16px;
+  transform: translateY(-50%);
+  background: white;
+  padding: 0 4px;
+  color: #6b7280;
+  pointer-events: none;
+  transition: 0.2s ease all;
+}
+
+form input:focus + label,
+form input:not(:placeholder-shown) + label {
+  top: -8px;
+  font-size: 12px;
+  color: var(--primary-start);
+}
+
+form button {
+  padding: 14px;
+  border: none;
+  border-radius: 12px;
+  background: linear-gradient(to right, var(--primary-start), var(--primary-end));
+  color: white;
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
+  letter-spacing: 0.5px;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+form button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 12px rgba(0,0,0,0.15);
+}
+
+.links {
+  text-align: center;
+  margin-top: 20px;
+  font-size: 14px;
+}
+
+.links a {
+  color: var(--primary-start);
+  text-decoration: none;
+  font-weight: bold;
+}
+
+.links a:hover {
+  text-decoration: underline;
+}
+
+.message {
+  background: #ffedd5;
+  padding: 12px;
+  border-radius: 12px;
+  margin-bottom: 16px;
+  color: #92400e;
+  font-weight: 500;
+  text-align: center;
+  animation: fadein 0.5s ease;
+}
+
+@keyframes fadein {
+  from { opacity: 0; transform: translateY(-5px);}
+  to { opacity: 1; transform: translateY(0);}
+}
+</style>
+</head>
+<body>
+
+<div class="container">
+  <h2>Create Your Account</h2>
+
+  {% if messages %}
+    {% for message in messages %}
+      <div class="message">{{ message }}</div>
+    {% endfor %}
+  {% endif %}
+<form method="post">
+  {% csrf_token %}
+
+  <!-- Email -->
+  <div class="field">
+    <input type="email" name="email" placeholder=" " required>
+    <label>Email</label>
+  </div>
+
+  <!-- Username -->
+  <div class="field">
+    <input type="text" name="username" placeholder=" " required>
+    <label>Username</label>
+  </div>
+
+  <!-- Password -->
+  <div class="field">
+    <input type="password" name="password1" placeholder=" " required>
+    <label>Password</label>
+  </div>
+
+  <!-- Confirm Password -->
+  <div class="field">
+    <input type="password" name="password2" placeholder=" " required>
+    <label>Confirm Password</label>
+  </div>
+
+  <button type="submit">Sign Up</button>
+</form>
+
+  <div class="links">
+    Already have an account? <a href="{% url 'login' %}">Login</a>
+  </div>
+</div>
+</body>
+</html>
