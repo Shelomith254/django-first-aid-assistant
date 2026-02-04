@@ -1,7 +1,7 @@
 from google import genai
 from django.conf import settings
 
-api_key = genai.Client(api_key=settings.GEMINI_API_KEY)
+client = genai.Client(api_key=settings.GEMINI_API_KEY)
 
 # First aid instructions dictionary
 FIRST_AID_INSTRUCTIONS = {
@@ -17,15 +17,25 @@ FIRST_AID_INSTRUCTIONS = {
 }
 
 def get_chatbot_response(user_message):
+    response = client.models.generate_content(
+    model="gemini-2.5-flash",
+    contents=f"""
+You are a first aid assistant. 
+Provide instructions for: {user_message}
+Format your answer in short numbered steps. 
+Be brief and concise, maximum 5 steps.
+"""
+)
+
     key = user_message.strip().lower()
     
-    # 1️⃣ Check if user typed a known first aid topic
+    # 1️Check if user typed a known first aid topic
     if key in FIRST_AID_INSTRUCTIONS:
         return FIRST_AID_INSTRUCTIONS[key]
 
-    # 2️⃣ Otherwise, fallback to Gemini AI
+    # 2️Otherwise, fallback to Gemini AI
     try:
-        response = api_key.models.generate_content(
+        response = client.models.generate_content(
             model="gemini-2.5-flash",
             contents=user_message
         )
@@ -33,7 +43,7 @@ def get_chatbot_response(user_message):
 
     except Exception as e:
         print("🔥 GEMINI ERROR:", e)
-        # 3️⃣ If Gemini fails, provide polite fallback
+        # 3️If Gemini fails, provide polite fallback
         return (
             "Sorry, I only provide first aid instructions right now. "
             

@@ -12,26 +12,13 @@ https://docs.djangoproject.com/en/5.2/ref/settings/
 
 from pathlib import Path
 import os
+from decouple import config
 
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-
-env_path=BASE_DIR/ ".env"
-GEMINI_API_KEY=None
-
-with open(env_path) as f:
-    for line in f:
-        line=line.strip()
-        if not line or line.startswith("#"):
-            continue
-        key, value=line.strip().split("=", 1)
-        if key=="GEMINI_API_KEY":
-            GEMINI_API_KEY=value
-        
-
-
+    
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/5.2/howto/deployment/checklist/
@@ -140,5 +127,10 @@ STATIC_URL = 'static/'
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+
+GEMINI_API_KEY = config('GEMINI_API_KEY')
+
+
 
 
