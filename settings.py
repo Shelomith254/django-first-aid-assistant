@@ -33,7 +33,7 @@ ALLOWED_HOSTS = [
     '127.0.0.1',
     'localhost',
     'laborious-brande-relievedly.ngrok-free.dev',
-    'classproject-kibq.onrender.com'
+    'django-first-aid-assistant.onrender.com'
 ]
 
 
